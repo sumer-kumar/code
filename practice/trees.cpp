@@ -28,6 +28,7 @@ struct node {
 		right=NULL;
 	}
 };
+typedef node Node;
 
 node* createTree();
 void preorder(node* root);
@@ -51,6 +52,15 @@ void showMap(map<int,int> om);
 void verticalNodeSum(node* root);
 void verticalNodeSumRecur(node* root,int col,map<int,int>&om);
 int minimumDepth(node* root);
+void leftView(node* root);
+void rightView(node* root);
+void rightViewUntill(node* root,vector<int> & res,
+					int& maxNow, int curr);
+void getVerticalOrder(Node* root, int hd, map<int, vector<int>> &m);
+void printVerticalOrder(Node* root);
+void topView(node* root);
+void topViewUntill(node* root,int order,int level
+				,map<int,pair<int,int>> & mp);
 
 
 /*main------------------------------------------------->*/
@@ -58,12 +68,23 @@ int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cout<<"wow";
+
     node* root = createTree();
     // node* root2 = createTree();
     node* temp = NULL;
 
-    cout<<"minimum Depth : "<<minimumDepth(root);
+    cout<<"Top view  : "<<endl;
+    topView(root);
+
+    // printVerticalOrder(root);
+
+    cout<<"Right View :"<<endl;
+    rightView(root);
+
+    cout<<"Left View : "<<endl;
+    leftView(root);
+
+    // cout<<"minimum Depth : "<<minimumDepth(root);
 
 	// cout<<"vertical node sum : ";
 	// verticalNodeSum(root);
@@ -127,6 +148,164 @@ int main() {
 
 
 /*further funtions--------------------------------------->*/
+void topView(node* root)
+{
+	map<int,pair<int,int>> mp; /*order level data*/
+	topViewUntill(root,0,0,mp);
+
+	for(auto x : mp)
+	{
+		cout<<x.second.second<<" ";
+	}
+	cout<<endl;
+
+	cout<<mp[2].second<<endl;
+}
+
+void topViewUntill(node* root,int order,int level
+				,map<int,pair<int,int>> & mp)
+{
+	if(root==NULL) return;
+
+	/*if new order*/
+	if(mp.count(order)==0)
+	{
+		mp[order] = {level,root->data};
+	}
+	else if(level<mp[order].first)
+	{	
+		/*if order is already present
+		  then we will update map only 
+		  if level is smaller than the 
+		  previous one*/
+
+		mp[order] = {level,root->data};
+	}
+
+	/*send left*/
+	topViewUntill(root->left,order-1,level+1,mp);
+
+	/*send right*/
+	topViewUntill(root->right,order+1,level+1,mp);
+}
+
+
+
+/*copied from gfg*/
+void getVerticalOrder(Node* root, int hd, map<int, vector<int>> &m)
+{
+    // Base case
+    if (root == NULL)
+        return;
+ 
+    // Store current node in map 'm'
+    m[hd].push_back(root->data);
+ 
+    // Store nodes in left subtree
+    getVerticalOrder(root->left, hd-1, m);
+ 
+    // Store nodes in right subtree
+    getVerticalOrder(root->right, hd+1, m);
+}
+ 
+// The main function to print vertical order of a binary tree
+// with the given root
+void printVerticalOrder(Node* root)
+{
+    // Create a map and store vertical order in map using
+    // function getVerticalOrder()
+    map < int,vector<int> > m;
+    int hd = 0;
+    getVerticalOrder(root, hd,m);
+ 
+    // Traverse the map and print nodes at every horigontal
+    // distance (hd)
+    map< int,vector<int> > :: iterator it;
+    for (it=m.begin(); it!=m.end(); it++)
+    {
+        for (int i=0; i<it->second.size(); ++i)
+            cout << it->second[i] << " ";
+        cout << endl;
+    }
+}
+
+
+
+void rightView(node* root)
+{
+	vector<int> res;
+	int curr = 1;
+	int maxNow = 0;
+
+	rightViewUntill(root,res,maxNow,1);
+
+	for(int x : res)
+		cout<<x<<endl;
+}
+
+void rightViewUntill(node* root,vector<int> & res,
+					int& maxNow, int curr)
+{
+	if(root==NULL) return;
+
+	if(maxNow<curr)
+	{
+		maxNow = curr;
+		res.push_back(root->data);
+	}
+
+	rightViewUntill(root->right,res,maxNow,curr+1);
+	rightViewUntill(root->left,res,maxNow,curr+1);
+}
+
+
+void leftView(node* root)
+{
+	map<int,int> mp;
+
+	queue<node*> q;
+
+	q.push(root);
+	q.push(NULL);
+
+	int level = 0;
+
+
+	while(!q.empty())
+	{
+		root = q.front();
+		q.pop();
+
+
+		if(root==NULL)
+		{
+			if(!q.empty())
+				q.push(NULL);
+			level++;
+			continue;
+		}
+	
+		mp[level] = root->data;
+
+		if(root->right) 
+		{
+			q.push(root->right);
+		}
+
+		if(root->left)
+		{
+			q.push(root->left);
+		}
+	}
+
+	for(auto i = mp.begin();i!=mp.end();i++)
+	{
+		cout<<i->first<<" : "<<i->second<<endl;
+	}
+
+}
+
+
 
 int minimumDepth(node* root)
 {
