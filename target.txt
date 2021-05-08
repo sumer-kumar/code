@@ -1,0 +1,30 @@
+-> Number theory revision + practice
+		->check
+
+-> bit manipulation
+		->check
+
+
+-> graph theory part 1
+		->continue
+
+
+-> disjoint set union
+
+-> dp part 1
+
+-> graph theory part 2
+
+-> dp part 2
+
+-> interview questions
+
+
+day 1 -----> date 5/5/21
+		number theory revision + bit manupulation 
+day 2 -----> date 6/5/2021
+		bit manupulation practice + graph theory + practice bfs and dfs 
+
+
+day 3 ------> date 7/5/21
+		graph theory + practice

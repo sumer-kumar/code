@@ -1,0 +1,1 @@
+#include<stdio.h> #include<string.h> int f[20]={0}; int check(char c[], int t[20][26][10], int ii, int tt) { if(c[ii+1]=='\0' && f[tt]==1 && t[tt][c[ii]-'a'][0]!=-1) return 1; else if(c[ii]=='\0') return 0; int j=1, jj=0; for(j=0;j<3;j++) { if(t[tt][c[ii]-'a'][j]!=-1) jj |= check(c, t, ii+1, t[tt][c[ii]-'a'][j]); } return jj;

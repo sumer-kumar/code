@@ -1,0 +1,26 @@
+PRIOROTY QUEUE
+----------------------
+priority_queue<int> pq;
+
+empty() -- is empty 
+size() -- size of priority queue
+top() -- first element of priority_queue
+push() -- push number and arrange elements in descending order
+pop() -- pops first element 
+swap() -- swaps two priority_queue of same types
+emplace()-- same as insert but efficient in case of objects
+
+STACK
+-----------------------
+stack<int> st;
+
+empty()
+size()
+top()
+push()
+pop()
+swap()
+empty()
+
+note : go with the names
+
