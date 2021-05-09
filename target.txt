@@ -34,3 +34,6 @@ day 3 ------> date 7/5/21
 
 day 4 ------> date 8/5/21
 		graph theory + graph practice + binary tree practice
+
+day 5 ------> date 9/5/21
+		wasted
