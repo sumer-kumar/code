@@ -6,8 +6,10 @@
 
 
 -> graph theory part 1
-		->continue
+		->continue-> done
 
+-> graph theory part 2
+		->continue
 
 -> disjoint set union
 
@@ -15,7 +17,6 @@
 -> dp part 1
 
 
--> graph theory part 2
 
 -> dp part 2
 
@@ -43,3 +44,5 @@ day 5 ------> date 9/5/21
 day 6 ------> date 10/5/21
 		graph theory + practice + tree 2 questions
 
+day 7 ------> date 11/5/21
+		graph theory + practice
