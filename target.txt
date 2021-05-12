@@ -6,17 +6,15 @@
 
 
 -> graph theory part 1
-		->continue-> done
-
--> graph theory part 2
-		->continue
+		->continue -> done
 
 -> disjoint set union
+		->continue -> kind of overview 
 
+-> graph theory part 2
+		
 
 -> dp part 1
-
-
 
 -> dp part 2
 
