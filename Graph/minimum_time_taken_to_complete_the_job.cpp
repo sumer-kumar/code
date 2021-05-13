@@ -13,10 +13,11 @@ void defile()
 void addEdge(vector<int> a[],int from, int to);
 void showGraph(vector<int> a[],int V);
 void inputGraph(vector<int> a[]);
-bool isCyclic(vector<int> a[],int V);
-bool isCyclicFunc(vector<int> a[],int curr,bool visited[],bool rec[]);
+void minimum_time(vector<int> a[],int V);
+void dfs(vector<int> a[],int curr,int visited[],int time);
 
 
+/*directed graph*/
 int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
@@ -26,45 +27,45 @@ int main() {
 	vector<int> a[V+1];
 	inputGraph(a);
 	showGraph(a,V);	
-	cout<<isCyclic(a,V);
+
+	minimum_time(a,V);
+
 	return 0;
 }
 /*end of main------------------------------------->*/
 
-bool isCyclic(vector<int> a[],int V)
+void minimum_time(vector<int> a[],int V)
 {
-	bool visited[V] = {false};
-	bool rec[V] = {false};
+	int visited[V] = {-1};
+	memset(visited,-1,sizeof(visited));
 
-	for(int i = 0;i<V;i++)
+	for(int i=0;i<V;i++)
 	{
-		if(!visited[i]&&isCyclicFunc(a,i,visited,rec))
-		{	
-			return true;
-		}
-	}
-	for(bool x: visited)
-		cout<<x<<" ";
-	return false;
-}
-bool isCyclicFunc(vector<int> a[],int curr,bool visited[],bool rec[])
-{
-	if(visited[curr]==false)
-	{
-		visited[curr] = true;
-		rec[curr] = true;
-
-		for(int x : a[curr])
+		if(visited[i]==-1)
 		{
-			if(!visited[x]&&isCyclicFunc(a,x,visited,rec))
-				return true;
-			else if(rec[x]==true)
-				return true;
+			dfs(a,i,visited,1);
+		}
+	} 
+
+	for(int x : visited)
+	{
+		cout<<x<<" ";
+	}
+}
+
+void dfs(vector<int> a[],int curr,int visited[],int time)
+{
+	visited[curr] = time;
+
+	for(int x : a[curr])
+	{
+		if(visited[x]==-1)
+		{
+			dfs(a,x,visited,time+1);
 		}
 	}
-	rec[curr] = false;
-	return false;
 }
+
 
 void inputGraph(vector<int> a[])
 {

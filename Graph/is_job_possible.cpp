@@ -13,8 +13,8 @@ void defile()
 void addEdge(vector<int> a[],int from, int to);
 void showGraph(vector<int> a[],int V);
 void inputGraph(vector<int> a[]);
-bool isCyclic(vector<int> a[],int V);
-bool isCyclicFunc(vector<int> a[],int curr,bool visited[],bool rec[]);
+bool canFinish(vector<int> a[],int V);
+bool isCyclic(vector<int> a[],int curr,vector<bool>&visited,vector<bool>& rec);
 
 
 int main() {
@@ -26,45 +26,51 @@ int main() {
 	vector<int> a[V+1];
 	inputGraph(a);
 	showGraph(a,V);	
-	cout<<isCyclic(a,V);
+	vector<bool> visited(V,false);
+	vector<bool> rec(V,false);
+	cout<<isCyclic(a,0,visited,rec);
+
 	return 0;
 }
 /*end of main------------------------------------->*/
 
-bool isCyclic(vector<int> a[],int V)
-{
-	bool visited[V] = {false};
-	bool rec[V] = {false};
 
-	for(int i = 0;i<V;i++)
-	{
-		if(!visited[i]&&isCyclicFunc(a,i,visited,rec))
-		{	
-			return true;
-		}
-	}
-	for(bool x: visited)
-		cout<<x<<" ";
-	return false;
-}
-bool isCyclicFunc(vector<int> a[],int curr,bool visited[],bool rec[])
+bool isCyclic(vector<int> a[],int curr,vector<bool>&visited,vector<bool>& rec)
 {
-	if(visited[curr]==false)
-	{
-		visited[curr] = true;
-		rec[curr] = true;
+    visited[curr] = true;
+    rec[curr] = true;
+    
+    for(int x : a[curr])
+    {
+        if(!visited[x]&&isCyclic(a,x,visited,rec)==true)
+        {
+        	return true;
+        }
+        else if(rec[x]==true)
+        	return true;
 
-		for(int x : a[curr])
-		{
-			if(!visited[x]&&isCyclicFunc(a,x,visited,rec))
-				return true;
-			else if(rec[x]==true)
-				return true;
-		}
-	}
-	rec[curr] = false;
-	return false;
+    }
+    rec[curr] = false;
+    return false;
 }
+    
+bool canFinish(vector<int> a[],int V) 
+{    
+    
+    vector<bool> visited(V,false);
+    //call dfs to detech cycle 
+    for(int i=0;i<V;i++)
+    {
+        if(!visited[i])
+        {
+            // if(isCyclic(a,i,visited,)==true)
+                return false;
+        }
+    }
+    return true;
+}
+
+
 
 void inputGraph(vector<int> a[])
 {
