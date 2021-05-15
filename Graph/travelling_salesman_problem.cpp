@@ -10,12 +10,13 @@ void defile()
 	#endif 
 }
 
-
+int minSum = INT_MAX;
 void inputGraph(vector<pair<int,int>> a[]);
 void showGraph(vector<pair<int,int>> a[],int V);
 void addEdge(vector<pair<int,int>> a[],int from,int to,int weight);
-void bellmanFord(vector<vector<int>> a,int V);
-
+int travelling_salesman_problem(vector<pair<int,int>> a[],int V);
+void dfs(vector<pair<int,int>> a[],int curr,bool rec[],int V
+		,int level,int sum,int source);
 
 /*start of main -------------------------------->*/
 int main() {
@@ -30,29 +31,7 @@ int main() {
     inputGraph(a);
     showGraph(a,V);
 
-    vector<vector<int>> res(V,vector<int> (V,-1));
-
-    /*fill diagonal with zero*/
-    for(int i=0;i<V;i++)
-    	res[i][i] = 0;
-
-    for(int i=0;i<V;i++)
-    {
-    	for(auto x : a[i])
-    	{
-    		res[i][x.first] = x.second;
-    	}
-    }
-
-    for(auto x : res)
-    {
-    	for(int p : x)
-    		cout<<p<<" ";
-    	cout<<"\n";
-
-    }
-
-    bellmanFord(res,V);
+    travelling_salesman_problem(a,V);
 
 	return 0;
 }
@@ -64,36 +43,44 @@ int main() {
 
 /*other functions-------------------------------->*/
 
-void bellmanFord(vector<vector<int>> a,int V)
+int i = 0;
+int travelling_salesman_problem(vector<pair<int,int>> a[],int V)
 {
-	for(int k =0;k<V;k++)
+	bool rec[V] = {false};
+
+	for(int i=0;i<V;i++)
+		dfs(a,i,rec,V,0,0,i);
+
+	cout<<minSum<<endl;
+
+ 	return 0;
+}
+
+void dfs(vector<pair<int,int>> a[],int curr,bool rec[],int V
+		,int level,int sum,int source)
+{
+	
+	if(level==V)
+	{	
+		minSum = min(minSum,sum);
+		return ;	
+	}
+	rec[curr] = true;
+
+	for(pair<int,int> x : a[curr]) 
 	{
-		for(int i=0;i<V;i++)
-		{
-			for(int j=0;j<V;j++)
-			{
-				/*below conditions are because here infinity is replaced by -1*/
-				if(a[i][j]==-1)/*is infinity*/
-				{
-					if(a[i][k]!=-1 && a[k][j]!=-1)
-						a[i][j] = a[i][k] + a[k][j]; 
-				}
-				else
-				{
-					if(a[i][k]!=-1 && a[k][j]!=-1)
-						a[i][j] = min(a[i][j],a[i][k] + a[k][j]); 
-				}
-			}
+		// cout<<i++<<" ";
+		if(!rec[x.first] || (x.first == source && level==V-1))
+		{	
+			// cout<<curr<<"-->"<<x.first<<"\nsum : "<<sum<<"\nweight :"<<x.second<<endl;
+			// cout<<"curr level : "<<level<<endl;
+			// cout<<"min sum : "<<minSum<<"\n\n"<<endl;
+
+			dfs(a,x.first,rec,V,level+1,sum+x.second,source);
 		}
 	}
-	// cout<<"\n\n";
-	// for(auto x : a)
- //    {
- //    	for(int p : x)
- //    		cout<<p<<" ";
- //    	cout<<"\n";
-
- //    }
+	rec[curr] = false;
+	return ;
 }
 
 void inputGraph(vector<pair<int,int>> a[])
@@ -128,10 +115,10 @@ void showGraph(vector<pair<int,int>> a[],int V)
 	{
 		string str = "";
 
-		cout<<i<<" : ";
+		cout<<(i+1)<<" : ";
 		for(auto x : a[i])
 		{
-			str += "(" + to_string(x.first) + "," 
+			str += "(" + to_string(x.first+1) + "," 
 					+ to_string(x.second) +")"+ "-";
 		}
 		cout<<str.substr(0,str.size()-1)<<endl;
