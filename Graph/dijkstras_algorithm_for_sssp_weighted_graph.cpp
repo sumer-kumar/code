@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
-#define INF 999
 
 void defile()
 {
@@ -12,12 +11,9 @@ void defile()
 }
 
 
-
 void inputGraph(vector<pair<int,int>> a[]);
 void showGraph(vector<pair<int,int>> a[],int V);
 void addEdge(vector<pair<int,int>> a[],int from,int to,int weight);
-void graph_converter(vector<pair<int,int>> a[],vector<vector<int>> res[],int V);
-void dijkstras(vector<vector<int>> a[],int V,int source);
 
 
 /*start of main -------------------------------->*/
@@ -33,93 +29,18 @@ int main() {
     inputGraph(a);
     showGraph(a,V);
 
-    vector<vector<int>> res[V];
-
-    graph_converter(a,res,V);
-
-    dijkstras(res,V,0);
 
 	return 0;
 }
 
 /*end of main ----------------------------------->*/
 
-void dijkstras(vector<vector<int>> a[],int V,int source)
-{
-	vector<int> dist(V,INF);
-	priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;/*weight curr_node*/
 
-	/*make source element 0*/
-	dist[source] = 0;
-	
-	/*push source with dist 0 in priority queue*/
-	pq.push({0,source});
-
-	while(!pq.empty())
-	{
-		pair<int,int> curr = pq.top();
-		pq.pop();
-
-		int w = curr.first;
-		int to = curr.second;
-
-		/*explore the node*/
-		for(int i = 0;i<a[to].size();i++)
-		{	
-			int x_weight = a[to][i][1];
-			int x_node = a[to][i][0];
-
-			if( w + x_weight < dist[x_node])
-			{
-				dist[x_node] = w + x_weight;
-
-				if(dist[x_node]!=INF)
-				pq.push({dist[x_node],x_node});
-			}
-		}
-
-		for(auto x : dist)
-			cout<<x<<" ";
-		cout<<endl;
-	}
-
-	cout<<"minimum distance of source : "<<source<<endl;
-	for(int i=0;i<V;i++)
-		{
-			cout<<i<<" : "<<dist[i]<<endl;
-		}
-}
 
 
 /*other functions-------------------------------->*/
 
-void graph_converter(vector<pair<int,int>> a[],vector<vector<int>> res[],int V)
-{
-	vector<int> block(2);
-	for(int i=0;i<V;i++)
-	{
-		for(auto x : a[i])
-		{
-			block[0] = x.first;
-			block[1] = x.second;
 
-			res[i].push_back(block);
-		}
-	}
-/*
-	cout<<"converted graph "<<endl;
-
-	for(int i=0;i<V;i++)
-	{	cout<<i<<" : "<<endl;
-		for(auto x : res[i])
-		{
-			for(int p : x)
-				cout<<"\t"<<p<<" ";
-			cout<<endl;
-		}
-		cout<<endl;
-	}*/
-}
 
 void inputGraph(vector<pair<int,int>> a[])
 {

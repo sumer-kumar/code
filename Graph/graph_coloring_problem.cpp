@@ -92,7 +92,7 @@ int chromatixNumber(vector<int> a[],int V)
 
 bool m_color_problem(vector<int> a[],int V,int m)
 {
-		/*make array to store the colors of the node*/
+	/*make array to store the colors of the node*/
 	int res[V];
 	memset(res,-1,sizeof(res));
 	/*assign 0 color to first node*/
