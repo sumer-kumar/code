@@ -111,7 +111,7 @@ void phone(string a[],int n,string sent)
 	for(auto x : ans)
 	{
 		for(string p : x)
-			cout<<p<<" " ;
+			cout<<p<<" ";
 		cout<<endl;
 	}
 
