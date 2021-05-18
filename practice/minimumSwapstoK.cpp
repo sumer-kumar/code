@@ -23,8 +23,11 @@ int minimumSwaps(int n,int k)
         while(a[right]>k)
         right--;
 
-        swap(a[left++],a[right--]);
+        swap(a[left],a[right]);
         count++;
+
+        left++;
+        right--;
     }
 
 
