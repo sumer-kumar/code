@@ -31,7 +31,7 @@ string solve(string a)
 	int i=0;
 	for(auto x = s.begin();x!=s.end();x++,i++)
 	{
-		cout<<*x<<" "<<l[i]<<endl;
+		// cout<<*x<<" "<<l[i]<<endl;
 		if(*x != l[i])
 		{
 			um[l[i]] = *x;
