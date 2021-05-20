@@ -74,3 +74,10 @@ day 12 ------> date 16/5/21
 
 day 13 ------> date 17/5/21
 		introduction of greedy algorithm
+
+
+day 14 ------> date 18/5/21
+		practice greedy
+
+day 15 -------> date 19/5/21
+		practice greedy
