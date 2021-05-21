@@ -23,9 +23,10 @@
 
 -> greedy
 		->continue
-
+		->done
 
 -> dp part 1
+		->continue
 
 -> dp part 2
 
@@ -82,5 +83,9 @@ day 14 ------> date 18/5/21
 day 15 -------> date 19/5/21
 		practice greedy
 
-day 16 -------> date 2-/5/21
+day 16 -------> date 20/5/21
 		practice greedy
+
+day 17 -------> date 21/5/21
+		introduction to dynamic programming
+		didn't practiced a question (feeling nervous)
