@@ -23,39 +23,28 @@ void defile()
 	#endif 
 }
 
-int solve(vi &a,int n,int k)
+int fun(int n)
 {
-	int curr = 0;
-	int maxs = 0;
-	rep(i,0,n-1)
-	{
-		// cout<<curr<<" : "<<maxs<<endl;
-		if(a[i]>k)
-		{
-			maxs = max(maxs,curr);
-			curr = 0;
-		}
-		else
-		{
-			curr += a[i];
-		}
-	}
+	vi dp(n+1);
+	dp[0]=0;
+	dp[1]=1;
+	dp[2]=2;
 
-	return max(maxs,curr);
+	rep(i,3,n)
+	{
+		dp[i] = dp[i-1]+dp[i-2];
+	}
+	return dp[n];
 }
 
 int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-	int n,k;
-	cin>>n>>k;
+	int n;
+	cin>>n;	
 
-	vi a(n);
-	rep(i,0,n-1)
-	cin>>a[i];
-
-	cout<<solve(a,n,k)<<endl;
+	cout<<fun(n)<<endl;
 
 	return 0;
 }
