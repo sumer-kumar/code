@@ -80,7 +80,7 @@ int main() {
     int n;
     cin>>n;
 
-    cout<<recur(n)<<endl;
+    // cout<<recur(n)<<endl;
     cout<<solve(n)<<endl;
 	return 0;
 }
