@@ -68,8 +68,35 @@ int fun(vi &w,vi &v,int n,int W)
 	}
 }
 
+/*using top down upproah the real dp*/
+/*here we go*/
+int solve(vi &w,vi &v,int n,int W)
+{
+	vvi dp(n+1,vi(W+1));/*column for W and row for items*/
 
-
+	rep(i,0,n)
+	{
+		rep(j,0,W)
+		{
+			if(i==0||j==0)/*base condition in recursion*/
+			{
+				dp[i][j]=0;
+			}
+			else if(w[i-1]<=j)
+			{
+				/*first include and second dont*/
+				dp[i][j] = max(v[i-1]+dp[i-1][j-w[i-1]],dp[i-1][j]);
+			}
+			else
+			{
+				dp[i][j] = dp[n-1][j];
+			}
+			cout<<dp[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	return dp[n][W];
+}
 
 
 /*main-------------------------------------------->*/
@@ -89,7 +116,9 @@ int main() {
     cin>>W;
 
     // cout<<recur(w,v,n,W)<<endl;
-    cout<<fun(w,v,n,W)<<endl;
+    // cout<<fun(w,v,n,W)<<endl;
+    cout<<solve(w,v,n,W);
+
 
 	return 0;
 }
