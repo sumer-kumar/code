@@ -97,3 +97,19 @@ day 18 -------> date 22/5/21
 
 day 19 -------> date 23/5/21
 		practiced easy questions on dp and dp tutorial
+
+
+day 20 --------> date 24/5/21
+		no nothing installed some of the softwares 
+
+
+day 21 --------> date 25/5/21
+		did 0 1 Knapsack problem
+
+
+day 22 --------> date 26/5/21
+		practiced a lot of questions similar to 01 Knapsack problem and unbounded knapsack problem
+
+day 23 --------> date 27/5/21
+		practice questions on dp
+

@@ -24,29 +24,34 @@ void defile()
 	#endif 
 }
 
-/*count function*/
-int countways(vi &coin,int n,int price)
+int solve(int w[],int v[],int n,int W)
 {
-    int dp[n+1][price+1];
-    rep(i,0,n)
-    {
-        rep(j,0,price)
-        {
-            if(j==0)
-                dp[i][j]=1;
-            else if(i==0)
-                dp[i][j]=0;
-            else if(coin[i-1]<=j)
-                dp[i][j] = dp[i][j-coin[i-1]] + dp[i-1][j];
-            else 
-                dp[i][j] = dp[i-1][j];
-            cout<<dp[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    return dp[n][price];
+	int dp[n+1][W+1];
+
+	rep(i,0,n)
+	{
+		rep(j,0,W)
+		{
+			if(i==0||j==0)
+				dp[i][j]=0;
+			else if(w[i-1]<=j)
+				dp[i][j] = max(v[i-1]+dp[i][j-w[i-1]],dp[i-1][j]);
+			else 
+				dp[i][j] = dp[i-1][j];
+		}
+	}
+	return dp[n][W];
 }
 
+int rodcutting(int a[],int n)
+{
+	int l[n];
+	rep(i,0,n-1)
+	l[i]=i+1;
+
+
+	return solve(l,a,n,n);
+}
 
 
 /*main-------------------------------------------->*/
@@ -56,16 +61,13 @@ int main() {
     cin.tie(NULL);
     int n;
     cin>>n;
-    vi a(n);
 
+    int a[n];
     rep(i,0,n-1)
     cin>>a[i];
 
-    int M;
-    cin>>M;
+   	cout<<rodcutting(a,n)<<endl;
 
-    // cout<<"bang"<<endl;
-    cout<<countways(a,n,M)<<endl;
 
 	return 0;
 }
