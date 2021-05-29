@@ -71,14 +71,14 @@ int solve(vi &a,int n)
 			{
 				dp[i][j] = min(dp[i][j],dp[i][k]+dp[k+1][j]+a[i-1]*a[k]*a[j]);
 			}
-		}
-	}
-
 	for(auto x : dp)
 	{
 		for(int p : x)
 			cout<<p<<" ";
 		cout<<endl;
+	}
+	cout<<"\n\n";
+		}
 	}
 
 	return dp[1][n-1];
