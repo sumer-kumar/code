@@ -55,6 +55,44 @@ bool recur(string a,string b)
 }
 
 
+/*using memoization*/
+unordered_map<string,bool> um;
+bool memo(string a,string b)
+{	
+
+	int n = a.size();
+
+	if(n!=b.size())
+		return false;
+
+
+	if(a==b)
+		return true;
+
+	if(n<=1)
+	 return false;
+
+	string key = a + " "+ b;
+	if(um.find(key)!=um.end())
+		return um[key];
+
+	for(int i=1;i<n;i++)
+	{
+		/*when not swapped*/
+		if(memo(a.substr(0,i),b.substr(0,i)) 
+			&& memo(a.substr(i,n-1),b.substr(i,n-1)))
+			return um[key]=true;
+
+		/*when swapped*/
+		if(memo(a.substr(0,i),b.substr(n-i,i)) 
+			&& memo(a.substr(i,n-1),b.substr(0,n-i)))
+			return um[key]=true;		
+	}
+	return um[key] = false;
+}
+
+
+
 /*main-------------------------------------------->*/
 int main() {
 	defile();
@@ -62,8 +100,9 @@ int main() {
     cin.tie(NULL);
     string a,b;
     cin>>a>>b;
-
+    um.clear();
     cout<<recur(a,b)<<endl;
+    cout<<memo(a,b)<<endl;
 
 	return 0;
 }
