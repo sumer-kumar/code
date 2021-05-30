@@ -113,3 +113,9 @@ day 22 --------> date 26/5/21
 day 23 --------> date 27/5/21
 		practice questions on dp
 
+day 24 --------> date 28/5/21
+		practice question on dp LCS
+
+day 25 --------> date 29/5/21
+		practice 2 questions 
+		MCM and palindrome partitioning on DP
