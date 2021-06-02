@@ -61,6 +61,7 @@ void printVerticalOrder(Node* root);
 void topView(node* root);
 void topViewUntill(node* root,int order,int level
 				,map<int,pair<int,int>> & mp);
+int liss(node* root);
 
 
 /*main------------------------------------------------->*/
@@ -73,16 +74,18 @@ int main() {
     // node* root2 = createTree();
     node* temp = NULL;
 
-    cout<<"Top view  : "<<endl;
-    topView(root);
+    cout<<"Largest Independent disjoint sets :"<<liss(root)<<endl;
+
+    // cout<<"Top view  : "<<endl;
+    // topView(root);
 
     // printVerticalOrder(root);
 
-    cout<<"Right View :"<<endl;
-    rightView(root);
+    // cout<<"Right View :"<<endl;
+    // rightView(root);
 
-    cout<<"Left View : "<<endl;
-    leftView(root);
+    // cout<<"Left View : "<<endl;
+    // leftView(root);
 
     // cout<<"minimum Depth : "<<minimumDepth(root);
 
@@ -148,6 +151,31 @@ int main() {
 
 
 /*further funtions--------------------------------------->*/
+unordered_map<node*,int> um;
+int liss(node* root)
+{
+	
+	if(!root)
+		return 0;
+
+	if(um.find(root)!=um.end())
+		return um[root];
+
+	int inc,exc;
+	inc = 1;/*if we include*/
+
+	/*if we exclude current node*/
+	exc = liss(root->left)+liss(root->right);
+
+	/*if we include then we cannot take the immediate childrens*/
+	if(root->left)
+		inc += liss(root->left->left)+liss(root->left->right);
+	if(root->right)
+		inc += liss(root->right->left)+liss(root->right->right);
+
+	return um[root]=max(inc,exc);
+}
+
 void topView(node* root)
 {
 	map<int,pair<int,int>> mp; /*order level data*/
@@ -650,21 +678,18 @@ node* createTree()
 		// cout<<"enter left right for "<<t->data<<": \n";
 		cin>>l>>r;
 
-
 		if(l!=-1)
 		{
 			node* left = new node(l);
 			t->left = left;
 			st.push(left);	
 		}
-				if(r!=-1)
+		if(r!=-1)
 		{
 			node* right  = new node(r);
 			t->right = right;
 			st.push(right);
 		}
-
-
 	}
 
 	return root;
