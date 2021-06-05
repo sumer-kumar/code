@@ -119,3 +119,25 @@ day 24 --------> date 28/5/21
 day 25 --------> date 29/5/21
 		practice 2 questions 
 		MCM and palindrome partitioning on DP
+
+day 26 --------> date 30/5/21
+		practice DP
+
+day 27 --------> date 31/5/21
+		practice DP
+
+day 28 --------> date 01/5/21
+		practice DP
+
+day 29 --------> date 02/5/21
+		practice DP
+
+day 30 --------> date 03/5/21
+		practice DP+set up flutter
+
+
+day 31 --------> date 04/5/21
+		learning Dart + practice DP
+
+day 32 --------> date 05/5/21
+		flutter + DP practice
