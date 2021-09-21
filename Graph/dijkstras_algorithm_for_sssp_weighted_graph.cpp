@@ -72,12 +72,10 @@ void dijkstras(vector<vector<int>> a[],int V,int source)
 			if( w + x_weight < dist[x_node])
 			{
 				dist[x_node] = w + x_weight;
-
 				if(dist[x_node]!=INF)
 				pq.push({dist[x_node],x_node});
 			}
 		}
-
 	}
 
 	cout<<"minimum distance of source : "<<source<<endl;

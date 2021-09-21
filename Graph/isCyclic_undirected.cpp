@@ -46,8 +46,8 @@ bool isCyclic(vector<int> a[],int V)
 bool isCyclicFunc(vector<int> a[],int curr,bool visited[],int parent)
 {
 
-	if(!visited[curr])
-	{
+	// if(!visited[curr])
+	// {
 		visited[curr] = true;
 
 		for(int x : a[curr])
@@ -62,7 +62,7 @@ bool isCyclicFunc(vector<int> a[],int curr,bool visited[],int parent)
 				return true;
 			}
 		}
-	}
+	// }
 	return false;
 }
 

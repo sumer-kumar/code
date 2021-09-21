@@ -36,7 +36,7 @@ int recur(string &a,string &b,int aa,int bb,int count=0)
 		count = max(count,m1);
 		return count;
 	}
-	return max(recur(a,b,aa-1,bb,0),recur(a,b,aa,bb-1,0));
+	return max(count,max(recur(a,b,aa-1,bb,0),recur(a,b,aa,bb-1,0)));
 }
 
 /*using bottom up approach*/

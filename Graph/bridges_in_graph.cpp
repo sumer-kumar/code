@@ -39,10 +39,6 @@ void bridges(vector<int> a[],int V)
 	int timer = 0;
 
 	dfs(a,0,visited,in,low,timer,-1);
-	
-
-	
-
 
 }
 
@@ -65,7 +61,6 @@ void dfs(vector<int> a[],int curr,bool visited[],int in[],int low[],
 
 			if(low[x]>in[curr])
 				cout<<"bridge : "<<x<<" <--> "<<curr<<endl;
-
 
 			low[curr] = min(low[curr],low[x]);
 		}

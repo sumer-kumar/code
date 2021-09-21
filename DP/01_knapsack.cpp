@@ -70,9 +70,13 @@ int fun(vi &w,vi &v,int n,int W)
 
 /*using top down upproah the real dp*/
 /*here we go*/
+
+
+/*int solve(int w[],int v[],int W)  */
 int solve(vi &w,vi &v,int n,int W)
 {
 	vvi dp(n+1,vi(W+1));/*column for W and row for items*/
+	/*int dp[n+1][W+1]*/
 
 	rep(i,0,n)
 	{

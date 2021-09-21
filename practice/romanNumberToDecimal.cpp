@@ -35,8 +35,10 @@ int romanToDecimal(string &s)
             if (x>=y)
                 res += x;
             else
-                {res += y - x;
-                i++;}
+            {
+                res += y - x;
+                i++;
+            }
         }
         else
         {

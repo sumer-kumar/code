@@ -24,7 +24,6 @@ ll binexp(ll a,ll e)
 		e>>=1;
 	}
 	return res;
-
 } 
 
 int main() {

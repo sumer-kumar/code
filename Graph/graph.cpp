@@ -53,6 +53,13 @@ vector<int> dfsFunc(vector<int> a[],int V,int source)
 	// visited[source] = true;
 	vector<int> res;
 
+	/*st :    */
+	/*curr : 3 */
+	/*res :  1 2 5 3 */
+
+	/*visited : 1 2 3 4 5 */
+	/*          t t t f t */
+
 	while(!st.empty())
 	{
 		int curr = st.top();

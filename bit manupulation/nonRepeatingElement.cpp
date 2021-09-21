@@ -11,7 +11,6 @@ int main()
     int a[] = {2, 3, 7, 9, 11, 2, 3, 11};
     int size = sizeof(a)/sizeof(a[0]);
     nonRepeatingElement(a,size);
-
     
     return 0;
 }

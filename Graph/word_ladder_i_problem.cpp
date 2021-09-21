@@ -22,7 +22,7 @@ int main() {
 	/* Start = ABCV
        End = EBAD*/
 	string start = "POON";
-	string end = "PKEA";
+	string end = "PLEA";
 
 	cout<<word_ladder(start,end,wordList)<<endl;
 

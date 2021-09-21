@@ -61,7 +61,7 @@ vector <int> kmp(string text,string pat)
 
     int i=0; //for index text
     int j=0; //for index pat
-
+// gvg
     vector<int> occurs;
     while(i<sizet)
     {
@@ -77,7 +77,7 @@ vector <int> kmp(string text,string pat)
             j = lps[j-1];    
         }
 
-        else if(i<sizet&&text[i]!=pat[j])
+        else if(i<sizet && text[i]!=pat[j])
         {
             if(j!=0)
             {

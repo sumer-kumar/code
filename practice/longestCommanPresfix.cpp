@@ -22,7 +22,7 @@ string lcp(vector <string> & str)
         {
             pre = pre.substr(0,pre.length()-1);
             if(pre.empty())
-            pre;
+            return pre;
         }
     }
     return pre;
