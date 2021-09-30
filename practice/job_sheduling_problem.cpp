@@ -47,7 +47,8 @@ int max_profit(vector<int> start,vector<int> end,vector<int> profit)
     sort(v.begin(),v.end(),comp);
 
     int dp[size]={0};
-    dp[0] = v[0][2]; //assigning profit of 0th index
+    dp[0] = v[0][2]; 
+    //assigning profit of 0th index
     for(int i=1;i<size;i++)
     {
         int ind = binarySearch(v,i);
