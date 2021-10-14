@@ -24,23 +24,33 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+int dp[1000][1000];
+int recur(string &a,int start,int end)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
-	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
-	}
+	int m = 0;
+	if(start==end)
+		m= 1;
 
-	return aa+bb-2*dp[aa][bb];
+	else if(start>end)
+		m= 0;
+
+	else if(dp[start][end]!=-1)
+		return dp[start][end];
+
+	else if(a[start]==a[end])
+		m=dp[start][end] = 1 + recur(a,start+1,end)+recur(a,start,end-1)-recur(a,start+1,end-1);
+	else
+	m=dp[start][end] = recur(a,start+1,end)+recur(a,start,end-1)-recur(a,start+1,end-1);
+
+	cout<<start<<" "<<end<<" "<<m<<endl;
+
+	return m;
+}
+
+int solve(string &a)
+{
+	memset(dp,-1,sizeof(dp));
+	return recur(a,0,a.size()-1);
 }
 
 /*main-------------------------------------------->*/
@@ -49,11 +59,10 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    string a = "fdsklf";
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
-
+    cout<<solve(a)<<endl;
+	
 	return 0;
 }
 

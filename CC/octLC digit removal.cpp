@@ -24,24 +24,42 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+
+int solve(int n,int d)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
+	string a = to_string(n);
+
+	int size = a.size();
+
+	rep(i,0,size-1)
 	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+		// cout<<"ff "<<a<<" "<<i<<endl;
+		if(a[i] == '0'+d)
+		{	
+			int ten_pow = size-i-1;
+			
+			int t = pow(10,ten_pow);
+
+			int x = stoi(a);
+
+			x += t;
+
+			a = to_string(x);
+			
+			int size = a.size();
+			
+			rep(j,i+1,size-1)
+			a[j]='0';
+
+			// cout<<a<<" "<<t<<endl;
 		}
 	}
 
-	return aa+bb-2*dp[aa][bb];
+	cout<<n<<" "<<a<<" "<<d<<" ";
+
+	return stoi(a)-n;
 }
+
 
 /*main-------------------------------------------->*/
 int main() {
@@ -49,10 +67,16 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    int t;
+    cin>>t;
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    while(t--)
+    {
+    	int n,d;
+    	cin>>n>>d;
+
+    	cout<<solve(n,d)<<endl;
+    }
 
 	return 0;
 }

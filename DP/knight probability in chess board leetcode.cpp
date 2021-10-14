@@ -24,23 +24,31 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+double recur(int n,int k,int r,int c)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
-	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
-	}
+	if(r<0 || r>=n || c<0 || c>=n)
+	return 0;
 
-	return aa+bb-2*dp[aa][bb];
+	if(k==0)
+	return 1;
+
+	double res=0;
+
+	res+=0.123*recur(n,k-1,r+1,c+2);
+	res+=0.123*recur(n,k-1,r+1,c-2);
+	res+=0.123*recur(n,k-1,r+2,c-1);
+	res+=0.123*recur(n,k-1,r+2,c+1);
+	res+=0.123*recur(n,k-1,r-1,c+2);
+	res+=0.123*recur(n,k-1,r-1,c-2);
+	res+=0.123*recur(n,k-1,r-2,c+1);
+	res+=0.123*recur(n,k-1,r-2,c-1);
+
+	return res;
+}
+
+double solve(int n,int k,int r,int c)
+{
+	return recur(n,k,r,c);
 }
 
 /*main-------------------------------------------->*/
@@ -49,10 +57,13 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
-
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    int r,c,k,n;
+    // n = 3, k = 2, row = 0, column = 0
+    n=3;
+    k=2;
+    r=0;
+    c=0;
+    cout<<solve(n,k,r,c)<<endl;
 
 	return 0;
 }

@@ -24,23 +24,39 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
-{
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
-	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
-	}
+/*
+	state : 0 : buying
+	state : 1 : selling
+*/
 
-	return aa+bb-2*dp[aa][bb];
+int dp[11111][2];
+int recur(vi &a,int curr,int state,int fee)
+{
+
+
+	if(curr>=a.size())
+		return 0;
+	if(dp[curr][state]!=-1)
+		return dp[curr][state];
+
+	/*buying state*/
+	if(state==0)
+	{
+		/*max of buying and not buying*/
+		return dp[curr][state] = max(-a[curr]+recur(a,curr+1,!state,fee),recur(a,curr+1,state,fee));
+	}
+	/*selling state*/
+	else
+	{
+		/*max of selling and not sellilng*/
+		return dp[curr][state]=max(a[curr] -fee +recur(a,curr+1,!state,fee),recur(a,curr+1,state,fee));
+	}
+}
+
+int solve(vi &a,int fee)
+{
+	memset(dp,-1,sizeof(dp));
+	return recur(a,0,0,fee);
 }
 
 /*main-------------------------------------------->*/
@@ -49,10 +65,10 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    vi a = {1,3,7,5,10,3};
+    int fee = 3;
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(a,fee)<<endl;
 
 	return 0;
 }

@@ -24,23 +24,57 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
-{
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
+int dp[1111][1111];
+int recur(string &a,string &b,int aa,int bb,vi &sa,vi &sb)
+{	
+
+	if(aa==0 && bb==0)
+		return 0;
+
+	if(aa==0)
+		return sb[bb-1];
+
+	if(bb==0)
+		return sa[aa-1];
+
+	if(dp[aa][bb]!=-1)
+		return dp[aa][bb];
+
+	if(a[aa-1]==b[bb-1])
 	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
+		return dp[aa][bb]=recur(a,b,aa-1,bb-1,sa,sb);
 	}
 
-	return aa+bb-2*dp[aa][bb];
+	return dp[aa][bb]=min(a[aa-1]+recur(a,b,aa-1,bb,sa,sb),b[bb-1]+recur(a,b,aa,bb-1,sa,sb));
+}
+
+int solve(string &a,string &b)
+{
+	memset(dp,-1,sizeof(dp));
+
+	int aa = a.size();
+	int bb = b.size();
+
+	vi sa(aa,0);
+	vi sb(bb,0);
+
+	sa[0]=a[0];
+	rep(i,1,aa-1)
+	sa[i]+=sa[i-1]+a[i];
+
+	sb[0]=b[0];
+	rep(i,1,bb-1)
+	sb[i]+=sb[i-1]+b[i];
+
+/*	for(int x : sa)
+		cout<<x<<" ";
+	cout<<endl;
+	for(int x : sb)
+		cout<<x<<" ";
+	cout<<endl;
+*/
+
+	return recur(a,b,aa,bb,sa,sb);
 }
 
 /*main-------------------------------------------->*/
@@ -52,7 +86,7 @@ int main() {
     string a = "sea";
     string b = "eat";
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(a,b)<<endl;
 
 	return 0;
 }

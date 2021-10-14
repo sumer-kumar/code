@@ -24,23 +24,20 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+int solve(vi &a)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
+	int size = a.size();
+
+	int prev_best = a[0]+0;
+	int curr_best = 0;
+
+	for(int i=1;i<size;i++)
 	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
+		curr_best = max(curr_best,prev_best+a[i]-i);
+		prev_best = max(prev_best,a[i]+i);
 	}
 
-	return aa+bb-2*dp[aa][bb];
+	return curr_best;
 }
 
 /*main-------------------------------------------->*/
@@ -49,10 +46,9 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    vi a = {8,1,5,2,6};
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(a)<<endl;
 
 	return 0;
 }

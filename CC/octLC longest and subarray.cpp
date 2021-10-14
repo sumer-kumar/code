@@ -24,24 +24,15 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
-{
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
-	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
-	}
 
-	return aa+bb-2*dp[aa][bb];
+int solve(int n)
+{
+	n++;
+	int t = ceil(log2(n));
+
+	return max(n-pow(2,t-1),pow(2,t-2));
 }
+
 
 /*main-------------------------------------------->*/
 int main() {
@@ -49,10 +40,16 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    int t;
+    cin>>t;
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    while(t--)
+    {
+    	int n;
+    	cin>>n;
+
+    	cout<<solve(n)<<endl;
+    }
 
 	return 0;
 }

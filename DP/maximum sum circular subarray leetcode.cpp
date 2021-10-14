@@ -24,23 +24,45 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+int kadane(vi &a)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
-	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
-	}
+	int size = a.size();
+	int curr_max = a[0];
+	int res_max = a[0];
 
-	return aa+bb-2*dp[aa][bb];
+	rep(i,1,size-1)
+	{
+		curr_max = max(a[i],curr_max+a[i]);
+		res_max = max(res_max,curr_max);
+	}
+	return res_max;
+}
+
+int solve(vi &a)
+{
+	//calculate ans when there is no circular subarray
+	int ans_1 = kadane(a);
+
+	//calculate ans when there is circular subarray
+
+	//calculate the sum of all elements
+	int sum = 0;
+	for(int x : a)
+		sum+=x;
+
+	//invert the signs
+	for( int &x : a)
+		x=-x;
+	
+	//calculate now max subarray from this array 
+	//whose sign inversion will be minimum for original array
+	int t = kadane(a);
+	int ans_2 = sum+t;
+	
+	if(ans_2==0)
+		return ans_1;
+
+	return max(ans_1,ans_2);
 }
 
 /*main-------------------------------------------->*/
@@ -49,10 +71,9 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    vi a = {-1,-2,-3};
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(a)<<endl;
 
 	return 0;
 }

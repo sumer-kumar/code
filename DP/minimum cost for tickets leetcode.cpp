@@ -24,23 +24,40 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+
+int dp[400][400];
+int recur(vi &days,int curr,vi &cost,int day)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
+
+	if(curr>=days.size())
+		return 0;
+
+	if(dp[curr][day]!=-1)
+		return dp[curr][day];
+
+	if(days[curr]>=day)
 	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
+		/*01 day pass*/
+		int m1 = cost[0]+recur(days,curr+1,cost,days[curr]+1);
+
+		/*07 days pass*/
+		int m2 = cost[1]+recur(days,curr+1,cost,days[curr]+7);
+
+		/*30 days pass*/
+		int m3 = cost[2]+recur(days,curr+1,cost,days[curr]+30);
+
+		return dp[curr][day] = min(m1,min(m2,m3));
 	}
 
-	return aa+bb-2*dp[aa][bb];
+	return dp[curr][day] = recur(days,curr+1,cost,day);
+}
+
+int solve(vi &days,vi &cost)
+{
+	memset(dp,-1,sizeof(dp));
+	int t = recur(days,0,cost,1);
+
+	return t;
 }
 
 /*main-------------------------------------------->*/
@@ -49,10 +66,10 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    vi days = {1,4,6,9,10,11,12,13,14,15,16,17,18,20,21,22,23,27,28};
+    vi cost = {3,13,45};
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(days,cost)<<endl;
 
 	return 0;
 }

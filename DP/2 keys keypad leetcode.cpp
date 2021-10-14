@@ -24,23 +24,37 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+int dp[1000][1000];
+int recur(int curr,int last,int n)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
-	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
-	}
+	if(curr==n)
+		return 0;
+	if(curr>n)
+		return 100000;
 
-	return aa+bb-2*dp[aa][bb];
+	if(dp[curr][last]!=-1)
+		return dp[curr][last];
+
+	/*then do not copy but paste*/
+	if(curr==last)
+	{
+		return dp[curr][last] =1 + recur(curr+last,last,n);
+	}
+	/*copy and paste*/
+	else
+	{
+		int cp = 1+recur(curr,curr,n);
+		int pst = 1+recur(curr+last,last,n);
+		return dp[curr][last]=min(cp,pst);
+	}
+}
+
+int solve(int n)
+{
+	memset(dp,-1,sizeof(dp));
+	if(n==1)
+		return 0;
+	return 1+recur(1,1,n);
 }
 
 /*main-------------------------------------------->*/
@@ -49,10 +63,9 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    int n = 10;
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(n)<<endl;
 
 	return 0;
 }

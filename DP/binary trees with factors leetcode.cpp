@@ -24,23 +24,34 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
+int solve(vi &a)
 {
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
+	int size = a.size();
+
+	unordered_map<int,int> um;
+	for(int x : a)
+		um[x]++;
+
+
+	sort(a.begin(),a.end());
+	int res = 1;//for the first element
+
+	rep(i,1,size-1)
 	{
-		rep(j,0,bb)
+		rep(j,0,i-1)
 		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+			if(a[i]%a[j]==0)
+			{
+				if(um.find(a[i]/a[j])!=um.end())
+				{
+					um[a[i]] = (um[a[i]]+(1ll*um[a[j]]*(um[a[i]/a[j]]))%mod)%mod;
+				}
+			}
 		}
+		res = (res + um[a[i]])%mod;
 	}
 
-	return aa+bb-2*dp[aa][bb];
+	return res;
 }
 
 /*main-------------------------------------------->*/
@@ -49,10 +60,9 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    vi a = {2,4,5,10};
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(a)<<endl;
 
 	return 0;
 }

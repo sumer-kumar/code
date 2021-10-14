@@ -24,24 +24,30 @@ void defile()
 	#endif 
 }
 
-int solve(string &a,string &b,int aa,int bb)
-{
-	int dp[aa+1][bb+1];
-	rep(i,0,aa)
-	{
-		rep(j,0,bb)
-		{
-			if(i==0||j==0)
-				dp[i][j]=0;
-			else if(a[i-1]==b[j-1])
-				dp[i][j]= 1 + dp[i-1][j-1];
-			else
-				dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-		}
-	}
 
-	return aa+bb-2*dp[aa][bb];
+double solve(int poured,int r,int c)
+{
+	double result[101][101] = {0.0};
+        result[0][0] = poured;
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (result[i][j] >= 1) {
+                    result[i + 1][j] += (result[i][j] - 1) / 2.0;
+                    result[i + 1][j + 1] += (result[i][j] - 1) / 2.0;
+                    result[i][j] = 1;
+                }
+            }
+        }
+        return result[r][c];
 }
+
+/*
+0
+0 0
+0 0 0
+0 0 0 0
+0 0 0 0 0
+*/
 
 /*main-------------------------------------------->*/
 int main() {
@@ -49,10 +55,12 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    string a = "sea";
-    string b = "eat";
+    /*poured = 2, query_row = 1, query_glass = 1*/
+    int poured=100000009;
+    int r = 33;
+    int c = 17;
 
-    cout<<solve(a,b,a.size(),b.size())<<endl;
+    cout<<solve(poured,r,c)<<endl;
 
 	return 0;
 }
