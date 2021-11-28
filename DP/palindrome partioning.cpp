@@ -26,12 +26,9 @@ void defile()
 
 bool isPali(string &s,int i,int j)
 {
-	while(i<j)
-	{
-		if(s[i++]!=s[j--])
-			return false;
-	}
-	return true;
+	if(i==j)
+		return true;
+	return s[i]==s[j]?isPali(s,i+1,j-1):false;
 }
 
 /*recursive*/
@@ -83,6 +80,93 @@ int solve(string &s,int i,int j)
 	return dp[i][j] = ans;
 }
 
+/*leetcode c++ code*/
+/*
+class Solution {
+public:
+
+int dp[2001], palin[2001][2001];
+
+bool check(string &s, int low, int high)
+{
+    if(low >= high)
+        return true;
+    
+    if(palin[low][high] != -1)
+        return palin[low][high];
+    
+    return palin[low][high] = (s[low] == s[high]) && check(s, low+1, high-1);
+}
+
+int help(string &s, int index)
+{
+    int size = s.size();
+    if(size == index)
+        return 0;
+    
+    if(dp[index] != -1)
+        return dp[index];
+    
+    int ans = 2001;
+    for(int i=index; i<size; i++)
+    {
+        if(check(s, index, i))
+            ans = min(ans, 1 + help(s, i+1));
+    }
+    
+    return dp[index] = ans;
+}
+
+int minCut(string &s) {
+    
+    memset(dp, -1, sizeof(dp));
+    memset(palin, -1, sizeof(palin));
+    return help(s, 0)-1;
+}
+};
+*/
+
+/*leetcode java solution*/
+/*
+class Solution {
+    private Integer dp[][];
+    private Boolean dpIsPalindrome[][];
+    public int minCut(String s) {
+        dp = new Integer[s.length()][s.length()];
+        dpIsPalindrome = new Boolean[s.length()][s.length()];
+        return minCutFrom(s, 0, s.length() - 1);
+    }
+    
+    private int minCutFrom(String s, int start, int end) {
+        if (start == end || isPalindrome(s, start, end)) {
+            return 0;
+        }
+        
+        if (dp[start][end] != null)
+            return dp[start][end];
+        
+        int minCut = s.length() - 1;
+        for (int i = start; i <= end; i++) {
+            if (isPalindrome(s, start, i)) {
+                minCut = Math.min(minCut, 1 + minCutFrom(s, i + 1, end));
+            }
+        }
+        return dp[start][end] = minCut;
+    }
+    
+    private boolean isPalindrome(String s, int start, int end) {
+        if (start >= end)
+            return true;
+        
+        if (dpIsPalindrome[start][end] != null)
+            return dpIsPalindrome[start][end];
+        
+        return dpIsPalindrome[start][end] = (s.charAt(start) == s.charAt(end))
+            && isPalindrome(s, start + 1, end - 1);
+    }
+}
+
+*/
 
 
 /*main-------------------------------------------->*/

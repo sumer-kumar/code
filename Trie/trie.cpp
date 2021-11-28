@@ -23,7 +23,6 @@ void display(tnode* root,string curr="",int level=0);
 bool search(tnode* root,string x);
 
 
-
 tnode* make_new_tnode()
 {
 	tnode* t = new tnode();
