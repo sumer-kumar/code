@@ -124,7 +124,7 @@ void dsu_union(int parent[],int a,int b)
 	int y = dsu_find(parent,b);
 
 	if( x==y )
-		return ;
+		return;
 	parent[x] = y;
 }
 

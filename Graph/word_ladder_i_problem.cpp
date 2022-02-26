@@ -29,6 +29,17 @@ int main() {
 	return 0;
 }
 
+bool diff_by_one(string a,string b)
+{
+	int cnt =0;
+	for(int i=0;i<a.size();i++)
+	{
+		if(a[i]!=b[i])
+			cnt++;
+	}
+	return cnt==1;
+}
+
 int word_ladder(string &start,string &end, vector<string> &wordList)
 {
 	unordered_map<string,int> um;
@@ -97,13 +108,3 @@ int word_ladder(string &start,string &end, vector<string> &wordList)
 }
 
 
-bool diff_by_one(string a,string b)
-{
-	int cnt =0;
-	for(int i=0;i<a.size();i++)
-	{
-		if(a[i]!=b[i])
-			cnt++;
-	}
-	return cnt==1;
-}
