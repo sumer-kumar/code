@@ -24,57 +24,64 @@ void defile()
 	#endif 
 }
 
-
-bool is_valid(unordered_map<char,int> &a,unordered_map<char,int> &b)
+int solve(string &a,string &b)
 {
-	for(auto x : b)
-	{
-		if(x.second > a[x.first])
-			return false;
-	}
-	return true;
-}
-
-//find full a in smallest b
-string solve(string &a,string &b)
-{
-	int sizea = a.size();
-	int sizeb = b.size();
-
-	if(sizeb<sizea)
-		return "";
-
+	int cnt=0;
 	unordered_map<char,int> uma;
-	unordered_map<char,int> um;
-
 	for(char x : a)
 		uma[x]++;
 
-	int l=0;
-	int r=sizeb;
+	unordered_map<char,int> um;
+
+	int sizeb = b.size();
+	int res_size = 0;
 
 	int start=0;
 
-	bool flag=false;
-
+	//window is 'start' to 'i'
 	rep(i,0,sizeb-1)
 	{
-		um[b[i]]++;
-		while(is_valid(um,uma))
+		//if the character does not belong to the string a
+		if(uma.count(b[i])==0)
 		{
-			if(r-l+1>i-start+1)
+			for(;start<=i;start++)
 			{
-				flag=true;
-				l=start;
-				r=i;
+				if(uma.count(b[start])!=0)
+				{
+					um[b[start]]--;
+				}
 			}
+			start=i+1;
+			res_size=0;
+		}
+		else
+		{
+			um[b[i]]++;
+			res_size++;
 
+			while(um[b[i]]>uma[b[i]])
+			{
+				if(uma.count(b[start])!=0)
+				{
+					res_size--;
+					um[b[start]]--;
+				}
+				start++;
+			}
+		}
+
+		if(res_size==a.size())
+		{
+			res_size--;
 			um[b[start++]]--;
+			cnt++;
 		}
 	}
 
-	return !flag?"":b.substr(l,r-l+1);
+	return cnt;
 }
+
+
 
 /*main-------------------------------------------->*/
 int main() {
@@ -82,13 +89,13 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-/*Input: s = "ADOBECODEBANC", t = "ABC"
-Output: "BANC"*/
+    /*Input: s = "cbaebabacd", p = "abc"
+Output: [0,6]*/
 
-    string s = "AAAAAABBBBB";
-    string t = "ABC";
+    string a = "abc";
+    string b = "cbaebabacd";
 
-    cout<<solve(t,s)<<endl;
+    cout<<solve(a,b)<<endl;
 
 	return 0;
 }

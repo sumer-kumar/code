@@ -25,55 +25,35 @@ void defile()
 }
 
 
-bool is_valid(unordered_map<char,int> &a,unordered_map<char,int> &b)
+int solve(vi &a)
 {
-	for(auto x : b)
+	int size = a.size();
+
+	if(size==0)
+		return 0;
+
+	unordered_set<int> st(a.begin(),a.end());
+
+	int mx=1;
+
+	for(int x : a)
 	{
-		if(x.second > a[x.first])
-			return false;
-	}
-	return true;
-}
-
-//find full a in smallest b
-string solve(string &a,string &b)
-{
-	int sizea = a.size();
-	int sizeb = b.size();
-
-	if(sizeb<sizea)
-		return "";
-
-	unordered_map<char,int> uma;
-	unordered_map<char,int> um;
-
-	for(char x : a)
-		uma[x]++;
-
-	int l=0;
-	int r=sizeb;
-
-	int start=0;
-
-	bool flag=false;
-
-	rep(i,0,sizeb-1)
-	{
-		um[b[i]]++;
-		while(is_valid(um,uma))
+		//check if x is the beggining of the sequence
+		if(st.count(x-1)==0)
 		{
-			if(r-l+1>i-start+1)
-			{
-				flag=true;
-				l=start;
-				r=i;
-			}
+			int curr_mx = 1;
+			int curr = x;
 
-			um[b[start++]]--;
+			while(st.count(curr+1)!=0)
+			{
+				curr++;
+				curr_mx++;
+			}
+			mx = max(mx,curr_mx);
 		}
 	}
 
-	return !flag?"":b.substr(l,r-l+1);
+	return mx;
 }
 
 /*main-------------------------------------------->*/
@@ -81,14 +61,12 @@ int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+	/*Input: nums = [100,4,200,1,3,2]
+	Output: 4*/
 
-/*Input: s = "ADOBECODEBANC", t = "ABC"
-Output: "BANC"*/
+	vi a = {100,4,200,1,3,2};
 
-    string s = "AAAAAABBBBB";
-    string t = "ABC";
-
-    cout<<solve(t,s)<<endl;
+	cout<<solve(a)<<endl;    
 
 	return 0;
 }
