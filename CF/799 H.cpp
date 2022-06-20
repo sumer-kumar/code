@@ -20,9 +20,6 @@ void ininvi(vi &a,int size=0);
 void inllarr(ll a[],ll n);
 void inllvi(vll &a,ll size=0);
 
-
-
-
 void defile()
 {
 	#ifndef ONLINE_JUDGE
@@ -31,88 +28,85 @@ void defile()
 	#endif 
 }
 
-int recur(int n,int x,int y)
+void solve(vi &a,int size)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
+	map<int,vi> um;
 
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
+	rep(i,0,size-1)
+	um[a[i]].pb(i);
 
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
+	int aa,l,r;
+	
+	int benefit = 1;
 
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
-	int size = a.size();
-	dp[0]=0;
-
-	for(int i=1;i<=t;i++)
+	for(auto x : um)
 	{
-		for(int j=0;j<size;i++)
+		vi t = x.second;
+		if(t.size()<2)
+			continue;
+
+		vi sm(t.size(),0);
+		sm[0]=1;
+		// for(int x : t)
+		// 	cout<<x<<" ";
+		// cout<<endl;
+		rep(i,1,t.size()-1)
 		{
-			if(i<=a[j])
+			sm[i] = sm[i-1] + (t[i-1]+1==t[i] ? 1: (t[i-1]-t[i]+2));
+		}	
+
+		// cout<<x.first<<endl;
+		// for(int x : sm)
+		// 	cout<<x<<" ";
+		// cout<<endl;
+
+		int mx = sm.size()-1;
+		for(int i=sm.size()-2;i>=0;i--)
+		{
+			if(sm[mx]<=sm[i])
+				mx = i;
+			if(benefit < sm[mx]-sm[i]+1)
 			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
+				benefit = sm[mx]-sm[i]+1;
+				aa = a[t[i]];
+				l = t[i];
+				r = t[mx];
 			}
 		}
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
-{
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
-
-	rep(i,2,n)
+	if(benefit==1)
 	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+		cout<<a[0]<<" "<<1<<" "<<1<<endl;
+		return;
+	}
+
+	cout<<aa<<" "<<l+1<<" "<<r+1<<" "<<endl;
+
 }
+
+
+
 
 /*main-------------------------------------------->*/
 int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+	int t;
+	cin>>t;
 
+	while(t--)
+	{
+		int n;
+		cin>>n;
 
+		vi a(n);
+		ininvi(a);
+
+		solve(a,n);
+	}   
 
 	return 0;
 }

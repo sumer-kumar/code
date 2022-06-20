@@ -19,10 +19,6 @@ void ininarr(int a[],int size);
 void ininvi(vi &a,int size=0);
 void inllarr(ll a[],ll n);
 void inllvi(vll &a,ll size=0);
-
-
-
-
 void defile()
 {
 	#ifndef ONLINE_JUDGE
@@ -30,75 +26,77 @@ void defile()
 		freopen("output.txt", "w", stdout);
 	#endif 
 }
+// 0 1 2 
+// 3 4 9
+// 3 9 18
 
-int recur(int n,int x,int y)
+
+int giveSum(vi &a,vi &sum,int k)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
 
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
+	auto x = upper_bound(a.begin(),a.end(),k);
+	if(x==a.end())
+		return sum.back();
+
+	int ind = x-a.begin();
+
+	return sum[ind]-a[ind] + k*(a.size()-ind);
 }
 
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
-
-/*int solve(vi &a,int t)
+int solve(vi &a,int t)
 {
-	vi dp(t+1,1000000);
 	int size = a.size();
-	dp[0]=0;
+	//sort first 
+	sort(a.begin(),a.end());
 
-	for(int i=1;i<=t;i++)
+	int start=0;
+	int end=a[0];
+
+	rep(i,0,size-1)
 	{
-		for(int j=0;j<size;i++)
+		end=max(end,a[i]);
+	}
+
+	vi sum(size,0);
+	sum[0]=a[0];
+
+	rep(i,1,size-1){
+		sum[i]+=a[i]+sum[i-1];
+	}
+
+	int min_diff=INT_MAX;
+	int mid_val=-1;
+
+	cout<<start<<" "<<end<<endl;
+
+	while(start<=end)
+	{
+		int mid = start+(end-start)/2;
+
+		int temp = giveSum(a,sum,mid);
+
+		cout<<temp<<" "<<mid<<endl;
+
+		if(temp>t){
+			end=mid-1;
+		}
+		else{
+			start=mid+1;
+		}
+
+		int diff = abs(temp-t);
+
+		if(diff<min_diff || (diff==min_diff && mid_val>mid))
 		{
-			if(i<=a[j])
-			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
-			}
+			min_diff = diff;
+			mid_val = mid;
+
+		}else if(diff==0 && mid_val>mid){
+			mid_val=mid;
 		}
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
-{
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
-
-	rep(i,2,n)
-	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+	return mid_val;
 }
 
 /*main-------------------------------------------->*/
@@ -106,13 +104,15 @@ int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
+	
+	/*Input: arr = [4,9,3], target = 10
+	Output: 3*/
+	
+    vi a = {2,3,5};
+    int t = 10;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
-
-
+    cout<<solve(a,t)<<endl;
+    
 
 	return 0;
 }

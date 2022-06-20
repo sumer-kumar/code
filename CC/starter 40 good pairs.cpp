@@ -20,9 +20,6 @@ void ininvi(vi &a,int size=0);
 void inllarr(ll a[],ll n);
 void inllvi(vll &a,ll size=0);
 
-
-
-
 void defile()
 {
 	#ifndef ONLINE_JUDGE
@@ -31,88 +28,51 @@ void defile()
 	#endif 
 }
 
-int recur(int n,int x,int y)
+
+
+
+int solve(vi &a,vi &b,int size)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
+	unordered_map<int,int> um;
 
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
-
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
-
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
-	int size = a.size();
-	dp[0]=0;
-
-	for(int i=1;i<=t;i++)
+	rep(i,0,size-1)
 	{
-		for(int j=0;j<size;i++)
-		{
-			if(i<=a[j])
-			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
-			}
-		}
+		um[a[i]^b[i]]++;
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
-{
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
+	int cnt = 0;
 
-	rep(i,2,n)
+	rep(i,0,size-1)
 	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+		cnt += um[a[i]^b[i]]-1;
+	}
+
+	return cnt/2;
 }
+
 
 /*main-------------------------------------------->*/
 int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    	int n;
+    	cin>>n;
 
+    	vi a(n),b(n);
 
+    	ininvi(a);
+    	ininvi(b);
+
+    	cout<<solve(a,b,n)<<endl;
+
+    }
+    
 
 	return 0;
 }

@@ -20,9 +20,6 @@ void ininvi(vi &a,int size=0);
 void inllarr(ll a[],ll n);
 void inllvi(vll &a,ll size=0);
 
-
-
-
 void defile()
 {
 	#ifndef ONLINE_JUDGE
@@ -30,89 +27,74 @@ void defile()
 		freopen("output.txt", "w", stdout);
 	#endif 
 }
-
-int recur(int n,int x,int y)
+string solve(vi &a)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
-
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
-
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
-
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
 	int size = a.size();
-	dp[0]=0;
 
-	for(int i=1;i<=t;i++)
+	ll max_so_far = a[0];
+	ll max_ending_here = a[0];
+	
+	vi res;
+
+	for (int i = 1; i < size; i++) 
 	{
-		for(int j=0;j<size;i++)
+	    max_ending_here = max(max_ending_here + 1ll*a[i], 1ll*a[i]);
+	    // max_so_far = max(max_ending_here, max_so_far);
+
+	    if(max_so_far<max_ending_here)
+	    {
+	    	max_so_far=max_ending_here;
+	    	res = {i};
+	    }
+	    else if(max_so_far == max_ending_here)
+	    {
+	    	res.pb(i);
+	    }
+	}
+
+	rep(i,0,res.size()-1)
+	{
+		ll sm = 0;
+		ll mx = INT_MIN;
+		for(int j=res[i];j>=0;j--)
 		{
-			if(i<=a[j])
+			sm = sm + 1ll*a[j];
+			mx = max(mx,1ll*a[j]);
+			if(sm==max_so_far)
 			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
+				if(mx<max_so_far)
+					return "NO";
+				break;
 			}
 		}
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
-{
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
 
-	rep(i,2,n)
-	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+	return "YES";
 }
+
+
 
 /*main-------------------------------------------->*/
 int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+    int t;
+    cin>>t;
 
+    while(t--)
+    {
+    	int n;
+    	cin>>n;
 
+    	vi a(n);
+    	ininvi(a);
+
+    	cout<<solve(a)<<endl;
+    }
+    
 
 	return 0;
 }

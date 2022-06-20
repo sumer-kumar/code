@@ -20,9 +20,6 @@ void ininvi(vi &a,int size=0);
 void inllarr(ll a[],ll n);
 void inllvi(vll &a,ll size=0);
 
-
-
-
 void defile()
 {
 	#ifndef ONLINE_JUDGE
@@ -31,74 +28,36 @@ void defile()
 	#endif 
 }
 
-int recur(int n,int x,int y)
+
+
+int solve(vvi &a,int r,int c)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
-
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
-
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
-
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
-	int size = a.size();
-	dp[0]=0;
-
-	for(int i=1;i<=t;i++)
+	int mx = a[0][0],x=0,y=0;
+	rep(i,0,r-1)
+	rep(j,0,c-1)
 	{
-		for(int j=0;j<size;i++)
+		if(mx<a[i][j])
 		{
-			if(i<=a[j])
-			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
-			}
+			mx = max(mx,a[i][j]);
+			x = i;
+			y = j;
 		}
 	}
-	return dp[t];
+
+	int i=x,j=y;
+
+	return max({(i+1)*(j+1),(i+1)*(c-j),(r-i)*(j+1),(r-i)*(c-j)});
+
 }
-*/
-
-bool solve(int n,int x,int y)
+float round(float var)
 {
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
-
-	rep(i,2,n)
-	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+	cout<<var<<endl;
+    // 37.66666 * 100 =3766.66
+    // 3766.66 + .5 =3767.16    for rounding off value
+    // then type cast to int so value is 3767
+    // then divided by 100 so the value converted into 37.67
+    float value = (int)(var * 100 + .5);
+    return (float)value / 100;
 }
 
 /*main-------------------------------------------->*/
@@ -106,13 +65,25 @@ int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+    round(1.111111);
+    int t;
+    cin>>t;
 
 
+    while(t--)
+    {
+    	int r,c;
+    	cin>>r>>c;
+
+    	vvi a(r,vi(c));
+
+    	rep(i,0,r-1)
+    	ininvi(a[i]);
+
+    	cout<<solve(a,r,c)<<endl;
+    }
+    
 
 	return 0;
 }

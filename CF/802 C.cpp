@@ -20,9 +20,6 @@ void ininvi(vi &a,int size=0);
 void inllarr(ll a[],ll n);
 void inllvi(vll &a,ll size=0);
 
-
-
-
 void defile()
 {
 	#ifndef ONLINE_JUDGE
@@ -31,87 +28,100 @@ void defile()
 	#endif 
 }
 
-int recur(int n,int x,int y)
+
+ll fun(vll &a)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
-
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
-
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
-
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
 	int size = a.size();
-	dp[0]=0;
-
-	for(int i=1;i<=t;i++)
+	vll left(size,0);
+	left[0] = a[0];
+	ll cnt = 0;
+	if(a[0]!=0)
 	{
-		for(int j=0;j<size;i++)
+		rep(i,1,size)
 		{
-			if(i<=a[j])
+			if(i==size || a[i]==0)
 			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
+				ll mn = 0;
+				cout<<i<<endl;
+				for(ll x : left)
+					cout<<x<<" ";
+				cout<<endl;
+
+				for(int j=i-1;j>=0;j--)
+				{
+					if(mn==left[j])
+					{
+						a[j] -= mn;
+					}
+					else
+					{
+						cnt += (left[j]-mn);
+						mn = left[j];
+						a[j] -= mn;
+						cout<<j<<" "<<mn<<" "<<a[j]<<endl;
+					}
+				}
+				break;
 			}
+			left[i] = min(left[i-1],a[i]);
 		}
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
+	for(ll x : a)
+		cout<<x<<" ";
+	cout<<endl;
+
+	cout<<"cnt--"<<cnt<<endl;
+
+	return cnt;
+}
+
+ll solve(vll &a,int size)
 {
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
+	int mn = *min_element(a.begin(),a.end());
+	
+	ll cnt = 0;
+	if(mn<0){
+	for(ll &x : a)
+		x += -mn;
+	cnt += -mn;
+	}
+	for(ll x : a)
+		cout<<x<<" ";
+	cout<<endl;
 
-	rep(i,2,n)
+	cnt += fun(a);
+	reverse(a.begin(),a.end());
+	cout<<"esf"<<endl;
+	cnt += fun(a);
+	
+	rep(i,1,size-2)
 	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+		cnt += 3*a[i];
+	}
+
+	return cnt;
 }
+
+
 
 /*main-------------------------------------------->*/
 int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+	int t;
+	cin>>t;
 
+	while(t--)
+	{
+		int n;
+		cin>>n;
+		vll a(n);
+		inllvi(a);
+		cout<<solve(a,n)<<endl;
+	}
 
 
 	return 0;

@@ -31,74 +31,37 @@ void defile()
 	#endif 
 }
 
-int recur(int n,int x,int y)
+string solve(string &a)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
+	unordered_map<char,int> last;
+	unordered_map<char,bool> vis;
 
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
-
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
-
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
 	int size = a.size();
-	dp[0]=0;
 
-	for(int i=1;i<=t;i++)
+	rep(i,0,size-1)
 	{
-		for(int j=0;j<size;i++)
-		{
-			if(i<=a[j])
-			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
-			}
-		}
+		last[a[i]]=i;
+		vis[a[i]]=false;
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
-{
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
+	string res = "";
 
-	rep(i,2,n)
+	rep(i,0,size-1)
 	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+		if(vis[a[i]]==true)
+			continue;
+
+		while(!res.empty() && res.back()>a[i] && last[res.back()]>i)
+		{
+			vis[res.back()]=false;
+			res.pop_back();
+		}
+
+		res.pb(a[i]);
+		vis[a[i]]=true;
+	}
+
+	return res;
 }
 
 /*main-------------------------------------------->*/
@@ -106,13 +69,10 @@ int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+	string a = "bcabc";
 
-
+	cout<<solve(a)<<endl;    
 
 	return 0;
 }

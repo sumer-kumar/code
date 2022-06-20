@@ -20,9 +20,6 @@ void ininvi(vi &a,int size=0);
 void inllarr(ll a[],ll n);
 void inllvi(vll &a,ll size=0);
 
-
-
-
 void defile()
 {
 	#ifndef ONLINE_JUDGE
@@ -31,88 +28,104 @@ void defile()
 	#endif 
 }
 
-int recur(int n,int x,int y)
+
+
+/*
+void solve(vi &a,int size)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
+	unordered_map<int,vi> um;
+	rep(i,0,size-1)
+	um[a[i]].pb(i);
 
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
-
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
-
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
-	int size = a.size();
-	dp[0]=0;
-
-	for(int i=1;i<=t;i++)
+	vi res(size,0);
+	for(auto x : um)
 	{
-		for(int j=0;j<size;i++)
+		if(x.second.size()<2)
 		{
-			if(i<=a[j])
-			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
-			}
+			cout<<"-1"<<endl;
+			return ;
+		}
+
+		int sizei = x.second.size();
+
+		res[x.second.back()] = x.second[0];
+
+		rep(i,1,sizei-1)
+		{
+			res[x.second[i-1]] = x.second[i]; 
 		}
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
-{
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
-
-	rep(i,2,n)
+	for(int x : res)
 	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+		cout<<x+1<<" ";
+	}
+	cout<<endl;
+}*/
+
+void rotate(vi &a,int l,int r)
+{
+	if(r-l==0)
+		return ;
+
+	int t = a[l];
+	rep(i,l,r-1)
+	{
+		a[i]=a[i+1];
+	}
+	a[r]=t;
 }
+
+void solve(vi &a,int size)
+{
+
+	int i=0;
+	
+	int j=0;
+
+
+	vi p(size,0);
+	rep(k,0,size-1)
+		p[k]=k+1;
+
+	while(j<size)
+	{
+		while(j<size && a[i]==a[j])
+			j++;
+		if(j-i<=1)
+		{
+			cout<<"-1"<<endl;
+			return;
+		}
+		rotate(p,i,j-1);
+		i=j;
+	}
+
+	for(int x : p)
+		cout<<x<<" ";
+	cout<<endl;
+}
+
 
 /*main-------------------------------------------->*/
 int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+    int t;
+    cin>>t;
 
+    while(t--)
+    {
+    	int n;
+    	cin>>n;
+    	vi a(n);
+    	ininvi(a);
 
+    	solve(a,n);
+    }
+    
 
 	return 0;
 }

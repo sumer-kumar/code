@@ -31,74 +31,34 @@ void defile()
 	#endif 
 }
 
-int recur(int n,int x,int y)
+
+void solve(vi &a,int size)
 {
-	if(n==0)
-		return false;
-	if(n==1)
-		return true;
+	deque<int> q;
 
-	if(n-1>=0 && !recur(n-1,x,y))
-		return true;
-	if(n-x>=0 && !recur(n-x,x,y))
-		return true;
-	if(n-y>=0 && !recur(n-y,x,y))
-		return true;
-	return false;
-}
+	rep(i,0,size-1)
+	q.pb(a[i]);
 
-/**
- * 
- * 		0 1 2
- * 		1 2 5
- * 
- * 		amount =  11;
- * 
- * 
- * 		0 1 2 3 4 5 6 7 8 9 10 11
- * 		0 1 2 
- * 
- * 
- * */
+	vi res(size,0);
 
-/*int solve(vi &a,int t)
-{
-	vi dp(t+1,1000000);
-	int size = a.size();
-	dp[0]=0;
-
-	for(int i=1;i<=t;i++)
+	for(int i=size;i>=1;i--)
 	{
-		for(int j=0;j<size;i++)
+
+		while(!q.empty() && q.back()!=i)
 		{
-			if(i<=a[j])
-			{
-				dp[i] = min(dp[i],dp[i-a[i]]);
-			}
+			q.push_back(q.front());
+			q.pop_front();
+
+			res[i-1]++;
 		}
+
+		q.pop_back();
 	}
-	return dp[t];
-}
-*/
 
-bool solve(int n,int x,int y)
-{
-	vi dp(n+1);
-	dp[0]=false;
-	dp[1]=true;
 
-	rep(i,2,n)
-	{
-		if(i-1>=0 && !dp[i-1])
-			dp[i]=true;
-		else if(i-x>=0 && !dp[i-x])
-			dp[i]=true;
-		else if(i-y>=0 && !dp[i-y])
-			dp[i]=true;
-		else
-			dp[i]=false;
-	}	
-	return dp[n];
+	for(int x : res)
+		cout<<x<<" ";
+	cout<<endl;
 }
 
 /*main-------------------------------------------->*/
@@ -106,13 +66,21 @@ int main() {
 	defile();
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,x,y;
-    cin>>n>>x>>y;
 
-    cout<<recur(n,x,y)<<endl;
-    cout<<solve(n,x,y)<<endl;
+    int t;
+    cin>>t;
 
+    while(t--)
+    {
+    	int size;
+    	cin>>size;
 
+    	vi a(size);
+    	ininvi(a,size);
+
+    	solve(a,size);
+    }
+    
 
 	return 0;
 }
