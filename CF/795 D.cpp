@@ -27,53 +27,32 @@ void defile()
 		freopen("output.txt", "w", stdout);
 	#endif 
 }
+
+
 string solve(vi &a)
 {
 	int size = a.size();
+	int low = 0;
+	int curr_mx = a[0];
+	int res_mx = a[0];
 
-	ll max_so_far = a[0];
-	ll max_ending_here = a[0];
-	
-	vi res;
+	//low will always be positive element 
 
-	for (int i = 1; i < size; i++) 
+	for(int i=1;i<size;i++)
 	{
-	    max_ending_here = max(max_ending_here + 1ll*a[i], 1ll*a[i]);
-	    // max_so_far = max(max_ending_here, max_so_far);
-
-	    if(max_so_far<max_ending_here)
-	    {
-	    	max_so_far=max_ending_here;
-	    	res = {i};
-	    }
-	    else if(max_so_far == max_ending_here)
-	    {
-	    	res.pb(i);
-	    }
-	}
-
-	rep(i,0,res.size()-1)
-	{
-		ll sm = 0;
-		ll mx = INT_MIN;
-		for(int j=res[i];j>=0;j--)
+		if(curr_mx+a[i]<a[i])
 		{
-			sm = sm + 1ll*a[j];
-			mx = max(mx,1ll*a[j]);
-			if(sm==max_so_far)
-			{
-				if(mx<max_so_far)
-					return "NO";
-				break;
-			}
+			low = i;
 		}
+		else
+		{
+			curr_mx += a[i];
+		}
+		if(i-low+1>1 && curr_mx>a[low])
+			return "NO";
 	}
-
-
 	return "YES";
 }
-
-
 
 /*main-------------------------------------------->*/
 int main() {

@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define mod 1000000007
-#define ll long long
+#define ll unsigned long long
 #define fi first
 #define se second
 #define pb push_back
@@ -24,51 +24,36 @@ void defile()
 	#endif 
 }
 
-unordered_map<ll,ll> um;
-unordered_map<ll,ll> um1;
-
-int recur(ll n,ll x)
-{
-	cout<<x<<endl;
-	string a = to_string(x);
-
-	if(a.size()>=n)
-		return 0;
-
-	if(um.find(x)!=um.end())
-		return um[x];
-
-	if(um1.find(x)!=um1.end())
-		return mod;
-
-	int res = mod;
-
-	um1[x]=1;
-	for(char &p : a)
-	{
-		if(p!='1' && p!='0')
-		{
-			ll t = x*1ll*(p-'0');
-			while(t%10==0)
-				t/=10;
-			res = min(res,1 + recur(n,t));
-		}
-	}
-
-	return um[x] = res;
-}
-
 int solve(ll n,ll x)
 {
-	um.clear();
+	queue<ll> q;
+	q.push(x);
+	int cnt = 0;
+	unordered_set<ll> st;
+	while(!q.empty())
+	{
+		int size = q.size();
+		rep(i,0,size-1)
+		{
+			ll tp = q.front();
+			q.pop();
 
-	//remove leading zeroes
-	while(x%10==0)
-		x/=10;
+			string a = to_string(tp);
+			if(a.size()==n)
+				return cnt;
+			for(char x : a)
+			{
+				ll val = tp*(x-'0');
+				if(val==0 || st.count(val))
+					continue;
+				q.push(val);
+				st.insert(val);
+			}
+		}
+		cnt++;
+	}
 
-	cout<<x<<endl;
-
-	return recur(n,x);
+	return -1;
 }
 
 /*main-------------------------------------------->*/

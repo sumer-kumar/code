@@ -149,8 +149,6 @@ void solve(vi &a)
 	rep(i,1,2*size+1)
 	cout<<st[i]<<" ";
 	cout<<endl;
-
-
 }
 
 

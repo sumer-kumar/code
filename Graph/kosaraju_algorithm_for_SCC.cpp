@@ -102,8 +102,6 @@ void dfs2(vector<int> a[],int curr,bool visited[],vector<int> & res)
 	}
 }
 
-
-
 /*dfs for collecting out timer*/
 void dfs(vector<int> a[],int curr,bool visited[],stack<int> & st)
 {

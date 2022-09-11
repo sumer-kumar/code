@@ -29,78 +29,28 @@ void defile()
 }
 
 
-ll fun(vll &a)
+string solve(vector<string> &a,int n)
 {
-	int size = a.size();
-	vll left(size,0);
-	left[0] = a[0];
-	ll cnt = 0;
-	if(a[0]!=0)
-	{
-		rep(i,1,size)
-		{
-			if(i==size || a[i]==0)
-			{
-				ll mn = 0;
-				cout<<i<<endl;
-				for(ll x : left)
-					cout<<x<<" ";
-				cout<<endl;
+	string res(n,'0');
+	set<string> st(a.begin(),a.end());
 
-				for(int j=i-1;j>=0;j--)
-				{
-					if(mn==left[j])
-					{
-						a[j] -= mn;
-					}
-					else
-					{
-						cnt += (left[j]-mn);
-						mn = left[j];
-						a[j] -= mn;
-						cout<<j<<" "<<mn<<" "<<a[j]<<endl;
-					}
-				}
+	for(int i=0;i<n;i++)
+	{
+		st.erase(a[i]);
+		int size = a[i].size();
+		for(int j=0;j<size;j++)
+		{
+			string t1 = a[i].substr(0,j);
+			string t2 = a[i].substr(j);
+			if(st.count(t1) && st.count(t2))
+			{
+				res[i] = '1';
 				break;
 			}
-			left[i] = min(left[i-1],a[i]);
 		}
+		st.insert(a[i]);
 	}
-
-	for(ll x : a)
-		cout<<x<<" ";
-	cout<<endl;
-
-	cout<<"cnt--"<<cnt<<endl;
-
-	return cnt;
-}
-
-ll solve(vll &a,int size)
-{
-	int mn = *min_element(a.begin(),a.end());
-	
-	ll cnt = 0;
-	if(mn<0){
-	for(ll &x : a)
-		x += -mn;
-	cnt += -mn;
-	}
-	for(ll x : a)
-		cout<<x<<" ";
-	cout<<endl;
-
-	cnt += fun(a);
-	reverse(a.begin(),a.end());
-	cout<<"esf"<<endl;
-	cnt += fun(a);
-	
-	rep(i,1,size-2)
-	{
-		cnt += 3*a[i];
-	}
-
-	return cnt;
+	return res;
 }
 
 
@@ -111,23 +61,24 @@ int main() {
 	ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-	int t;
-	cin>>t;
+    int t;
+    cin>>t;
 
-	while(t--)
+    while(t--)
 	{
 		int n;
 		cin>>n;
-		vll a(n);
-		inllvi(a);
+
+		vector<string> a(n);
+		for(auto &x : a)
+			cin>>x;
+
 		cout<<solve(a,n)<<endl;
 	}
-
-
 	return 0;
 }
 
-ek hi port kaam kar raha hai ?
+
 
 
 

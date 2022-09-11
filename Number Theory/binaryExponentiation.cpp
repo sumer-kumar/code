@@ -34,6 +34,5 @@ int main() {
     ll a,e;
     cin>>a>>e;
     cout<<binexp(a,e);
-
 	return 0;
 }

@@ -29,7 +29,6 @@ struct node {
 	}
 };
 typedef node Node;
-
 node* createTree();
 void preorder(node* root);
 void inorder(node* root);
@@ -502,7 +501,9 @@ int diameter(node* root)
 	if(!root) return 0;
 
 	int longest = max(diameter(root->left),diameter(root->right));
+
 	longest = max(longest,height(root->left)+height(root->right)+1);
+	
 	return longest;
 	/*complexity o(n2)*/
 }
